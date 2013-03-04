@@ -16,6 +16,7 @@ This basic 2D platform game was built from scratch using HTML <canvas> and Javas
 - Jumping
 - Framerate independant movement mechanics
 - Collision detection
+- Canvas size independent (everything scales properly)
 
 You will find config options for the following scattered throughout the code.
 I will make configuration easier eventually. The more advanced features include the following:
