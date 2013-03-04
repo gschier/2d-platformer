@@ -3,7 +3,7 @@ base-2d-platformer
 
 ## Setup
 
-Simply `git clone` the repo and open `platformer.html` in your browser (I only tested in Chrome).
+Simply `git clone` the repo and open `index.html` in your browser (I only tested in Chrome).
 
 ## Functionality
 
