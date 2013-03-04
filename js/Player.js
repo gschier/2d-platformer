@@ -9,10 +9,11 @@ var Player = function Player(ctx, bounds) {
   this.SIZE = bounds[3]/30;
 
   this.ctx = ctx;
-  this.bounds = bounds; // [ xMin, xMax, yMin, yMax ]
+  this.width = bounds[1]-bounds[0];
+  this.height = bounds[3]-bounds[2];
   this.v = [ 0, 0.1 ];
   this.pendingV = [ 0, 0 ]; // Velocity disregarding blocking obstacles
-  this.p = [ bounds[1]/20, bounds[3]*0.3 ];
+  this.p = [ this.width/20, this.height*0.3 ];
   this.fallHeight = 0;
   this.airJumps = 0;
   this.previousMovement = null;

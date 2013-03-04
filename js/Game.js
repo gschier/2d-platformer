@@ -4,15 +4,14 @@ var Game = function Game(ctx, width, height) {
   this.FONT_SIZE = 10;
   this.FONT_COLOR = '#888';
   this.FONT_PADDING = 4;
-  // this.timeScale = 0.5;
   this.timeScale = 1;
 
 
-  var bounds = [ 0, width, 0, height ];
+  var bounds = [ 0, width, 0, height ]; // [ x1, x2, y1, y2]
 
   this.player = new Player(ctx, bounds);
   this.world = new World(ctx, bounds);
-  
+
   this.w = width;
   this.h = height;
 

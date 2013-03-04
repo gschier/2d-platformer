@@ -1,28 +1,42 @@
 var World = function World(ctx, bounds, data) {
   this.ctx = ctx;
   this.bounds = bounds;
+
+  this.width = bounds[1]-bounds[0];
+  this.height = bounds[3]-bounds[2];
+
   this.data = data || {
     obstacles: [
-      { type: 'box', pos: [ 252, 100 ], size: [ 200, 200 ], name:  'Big Box' },
-      { type: 'box', pos: [ 700, 250 ], size: [ 230, 2 ], c: '#a62121', name: 'Skinny Plank' },
-      { type: 'box', pos: [ 552, 0 ], size: [ 280, 100 ], name: 'Tall Box' }
+      { type: 'box', pos: [ 0.1, 0.1 ], size: [ 0.3, 0.3 ], name:  'Big Box' },
+      { type: 'box', pos: [ 0.39, 0.1 ], size: [ 0.03, 1 ], name:  'Big Box' },
+      { type: 'box', pos: [ 0.5, 0.6 ], size: [ 0.2, 0.01 ], c: '#a62121', name: 'Skinny Plank' },
+      { type: 'box', pos: [ 0.8, 0 ], size: [ 0.4, 0.8 ], name: 'Tall Box' }
     ]
   };
 
   this.data.obstacles = this.data.obstacles || [ ];
 
-  // Always add floor and left wall
-  this.data.obstacles.push({ type: 'box', pos: [ -100, 0 ], size: [ 100, 600 ], name: 'Left Wall' });
-  this.data.obstacles.push({ type: 'box', pos: [ -10, 0 ], size: [ 2000, 10 ], name: 'Floor' });
+  // Always add floor and walls
+  this.data.obstacles.push({ type: 'box', pos: [ -0.1, 0 ], size: [ 0.1, 2 ], name: 'Left Wall' });
+  this.data.obstacles.push({ type: 'box', pos: [ 1, 0 ], size: [ 0.1, 2 ], name: 'Right Wall' });
+  this.data.obstacles.push({ type: 'box', pos: [ -0.1, 0 ], size: [ 200, 0.01 ], name: 'Floor' });
 
-  this.reverseYCoords();
+  this.transformCoords();
 };
 
-World.prototype.reverseYCoords = function() {
+World.prototype.transformCoords = function() {
   for (var i=0; i<this.data.obstacles.length; i++) {
     var o = this.data.obstacles[i];
+
+
+    o.pos[0] = Math.floor(o.pos[0]*this.width);
+    o.pos[1] = Math.floor(o.pos[1]*this.height);
+
+    o.size[0] = Math.floor(o.size[0]*this.width);
+    o.size[1] = Math.floor(o.size[1]*this.height);
+
     o.pos[1] = this.bounds[3]-o.pos[1]-o.size[1];
-    o.size[1] = o.size[1];
+
     console.log('OBJ '+i+': '+JSON.stringify(o));
   }
 };
