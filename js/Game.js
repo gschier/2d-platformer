@@ -6,7 +6,6 @@ var Game = function Game(ctx, width, height) {
   this.FONT_PADDING = 4;
   this.timeScale = 1;
 
-
   var bounds = [ 0, width, 0, height ]; // [ x1, x2, y1, y2]
 
   this.player = new Player(ctx, bounds);

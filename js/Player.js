@@ -5,15 +5,15 @@ var Player = function Player(ctx, bounds) {
   this.JUMP_VELOCITY = -this.ACCELERATION*200;
   this.MOVE_VELOCITY = this.JUMP_VELOCITY/3;
   this.MAX_Y_VELOCITY = -this.JUMP_VELOCITY*2;
-  // this.SIZE = bounds[3]/50;
-  this.SIZE = bounds[3]/30;
+  this.SIZE = bounds[3]/40;
+  this.COLOR = '#40668B';
 
   this.ctx = ctx;
   this.width = bounds[1]-bounds[0];
   this.height = bounds[3]-bounds[2];
   this.v = [ 0, 0.1 ];
   this.pendingV = [ 0, 0 ]; // Velocity disregarding blocking obstacles
-  this.p = [ this.width/20, this.height*0.3 ];
+  this.p = [ this.width/3, this.height*0.3 ];
   this.fallHeight = 0;
   this.airJumps = 0;
   this.previousMovement = null;
@@ -61,7 +61,7 @@ Player.prototype.update = function(movement, delta) {
 Player.prototype.draw = function() {
   this.ctx.beginPath();
   this.ctx.rect(this.p[0], this.p[1], this.SIZE, this.SIZE);
-  this.ctx.fillStyle = '#444';
+  this.ctx.fillStyle = this.COLOR;
   this.ctx.fill();
 };
 

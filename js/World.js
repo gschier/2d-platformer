@@ -1,6 +1,7 @@
-var World = function World(ctx, bounds, data) {
+var World = function World(ctx, bounds, sceneType, data) {
   this.ctx = ctx;
   this.bounds = bounds;
+  this.scene = new Scene(ctx, bounds, sceneType);
 
   this.width = bounds[1]-bounds[0];
   this.height = bounds[3]-bounds[2];
@@ -9,8 +10,12 @@ var World = function World(ctx, bounds, data) {
     obstacles: [
       { type: 'box', pos: [ 0.1, 0.1 ], size: [ 0.3, 0.3 ], name:  'Big Box' },
       { type: 'box', pos: [ 0.39, 0.1 ], size: [ 0.03, 1 ], name:  'Big Box' },
+      { type: 'box', pos: [ 0.1, 0.31 ], size: [ 0.01, 0.3 ], c: '#297992' },
       { type: 'box', pos: [ 0.5, 0.6 ], size: [ 0.2, 0.01 ], c: '#a62121', name: 'Skinny Plank' },
-      { type: 'box', pos: [ 0.8, 0 ], size: [ 0.4, 0.8 ], name: 'Tall Box' }
+      { type: 'box', pos: [ 0.3, 0.6 ], size: [ 0.005, 0.1 ], c: '#D07622', name: 'Skinny Plank' },
+      { type: 'box', pos: [ 0.20, 0.6 ], size: [ 0.005, 0.2 ], c: '#54A23B' },
+      { type: 'box', pos: [ 0.8, 0 ], size: [ 0.4, 0.8 ], name: 'Tall Box' },
+      { type: 'box', pos: [ 0.1, 0.6 ], size: [ 0.1, 0.01 ], c: '#234513' }
     ]
   };
 
@@ -28,7 +33,6 @@ World.prototype.transformCoords = function() {
   for (var i=0; i<this.data.obstacles.length; i++) {
     var o = this.data.obstacles[i];
 
-
     o.pos[0] = Math.floor(o.pos[0]*this.width);
     o.pos[1] = Math.floor(o.pos[1]*this.height);
 
@@ -42,6 +46,7 @@ World.prototype.transformCoords = function() {
 };
 
 World.prototype.update = function(delta, playerPosition) {
+  this.scene.update(delta);
   for (var i=0; i<this.data.obstacles.length; i++) {
     var o = this.data.obstacles[i];
     this.ctx.fillStyle = o.c || '#181818';
