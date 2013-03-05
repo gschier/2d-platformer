@@ -5,18 +5,25 @@ var Player = function Player(ctx, bounds) {
   this.JUMP_VELOCITY = -this.ACCELERATION*200;
   this.MOVE_VELOCITY = this.JUMP_VELOCITY/3;
   this.MAX_Y_VELOCITY = -this.JUMP_VELOCITY*2;
+  this.WIDTH = bounds[1]-bounds[0];
+  this.HEIGHT = bounds[3]-bounds[2];
+  this.RESET_POSITION = [ this.WIDTH/3, 0 ];
+  this.RESET_VELOCITY = [ 0, 0.1 ];
   this.SIZE = bounds[3]/40;
   this.COLOR = '#40668B';
 
   this.ctx = ctx;
-  this.width = bounds[1]-bounds[0];
-  this.height = bounds[3]-bounds[2];
-  this.v = [ 0, 0.1 ];
-  this.pendingV = [ 0, 0 ]; // Velocity disregarding blocking obstacles
-  this.p = [ this.width/3, this.height*0.3 ];
-  this.fallHeight = 0;
+
+  this.reset();
+};
+
+Player.prototype.reset = function () {
+  this.p = this.RESET_POSITION.slice(0);
+  this.v = this.RESET_VELOCITY.slice(0);
   this.airJumps = 0;
+  this.pendingV = [ 0, 0 ];
   this.previousMovement = null;
+  this.fallHeight = 0;
 
   // For managing horizontal direction
   // Ex. Holding down left and right at the same time
@@ -37,10 +44,28 @@ Player.prototype.move = function(delta) {
   return movement;
 };
 
+Player.prototype.checkActions = function(actions) {
+  if (!actions) { return; }
+  var died = false;
+  for (var i = 0; i<actions.length; i++) {
+    var action = actions[i];
+    if (action === 'die') { died = true; }
+  }
+
+  // Don't execute reset inside the loop to
+  // make sure thing get reset properly
+  if (died) {
+    this.reset();
+  }
+};
+
 Player.prototype.update = function(movement, delta) {
   this.p = movement.p;
   this.v = movement.v;
   this.fallHeight = movement.height || 0;
+  this.previousMovement = movement;
+
+  this.checkActions(movement.performActions);
 
   if (this.v[1]) { this.v[1] += this.ACCELERATION*delta; }
   if (movement.hit.t) { this.airJumps = this.NUM_AIR_JUMPS; }
@@ -54,8 +79,6 @@ Player.prototype.update = function(movement, delta) {
   }
 
   this.draw();
-
-  this.previousMovement = movement;
 };
 
 Player.prototype.draw = function() {

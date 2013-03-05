@@ -8,14 +8,32 @@ var World = function World(ctx, bounds, sceneType, data) {
 
   this.data = data || {
     obstacles: [
-      { type: 'box', pos: [ 0.1, 0.1 ], size: [ 0.3, 0.3 ], name:  'Big Box' },
-      { type: 'box', pos: [ 0.39, 0.1 ], size: [ 0.03, 1 ], name:  'Big Box' },
-      { type: 'box', pos: [ 0.1, 0.31 ], size: [ 0.01, 0.3 ], c: '#297992' },
-      { type: 'box', pos: [ 0.5, 0.6 ], size: [ 0.2, 0.01 ], c: '#a62121', name: 'Skinny Plank' },
-      { type: 'box', pos: [ 0.3, 0.6 ], size: [ 0.005, 0.1 ], c: '#D07622', name: 'Skinny Plank' },
-      { type: 'box', pos: [ 0.20, 0.6 ], size: [ 0.005, 0.2 ], c: '#54A23B' },
-      { type: 'box', pos: [ 0.8, 0 ], size: [ 0.4, 0.8 ], name: 'Tall Box' },
-      { type: 'box', pos: [ 0.1, 0.6 ], size: [ 0.1, 0.01 ], c: '#234513' }
+      { type: 'box', pos: [ 0.1, 0.1 ], size: [ 0.3, 0.3 ], name: 'Big rectangle' },
+      { type: 'box', pos: [ 0.39, 0.1 ], size: [ 0.03, 1 ], name :'Tall Middle Beam' },
+      { type: 'box', pos: [ 0.099, 0.1 ], size: [ 0.01, 0.51 ], name: 'Far left wall' },
+      { type: 'box', pos: [ 0.34, 0.8 ], size: [ 0.005, 0.1 ], name: 'Initial landing' },
+      { type: 'box', pos: [ 0.3, 0.5 ], size: [ 0.005, 0.2 ], name: 'First wall squatter' },
+      { type: 'box', pos: [ 0.4, 0.6 ], size: [ 0.3, 0.01 ], name: 'Good Stalagtite ceiling' },
+      { type: 'box', pos: [ 0.5, 0.51 ], size: [ 0.005, 0.1 ], name: 'Good Stalagtite 1' },
+      { type: 'box', pos: [ 0.6, 0.51 ], size: [ 0.005, 0.1 ], name: 'Goog Stalagtite 2' },
+      { type: 'box', pos: [ 0.4, 0.3 ], size: [ 0.2, 0.01 ], name: 'Pole from big block' },
+      { type: 'box', pos: [ 0.7, 0.7 ], size: [ 0.005, 0.1 ], name: 'Last landing' },
+      { type: 'box', pos: [ 0.39, 0.4 ], size: [ 0.005, 1 ], c: '#a62121', name :'Tall Middle Beam', action: 'die' },
+      { type: 'box', pos: [ 0.109, 0.4 ], size: [ 0.285, 0.01 ], c: '#a62121', action: 'die', name: 'First death' },
+      { type: 'box', pos: [ 0.6, 0.21 ], size: [ 0.005, 0.11 ], c: '#a62121', name: 'Stalagtite', action: 'die' },
+      { type: 'box', pos: [ 0.5, 0.7 ], size: [ 0.3, 0.01 ], c: '#a62121', name: 'Last killer', action: 'die' },
+      { type: 'box', pos: [ 0.6, 0.21 ], size: [ 0.02, 0.01 ], c: '#a62121', name: 'Stalagtite', action: 'die' },
+      { type: 'box', pos: [ 0.45, 0.4 ], size: [ 0.45, 0.01 ], c: '#a62121', name: 'Cave floor', action: 'die' },
+      { type: 'box', pos: [ 0.3, 0.7 ], size: [ 0.005, 0.4 ], name: 'First small red part', c: '#a62121', action: 'die' },
+      { type: 'box', pos: [ 0.20, 0.6 ], size: [ 0.005, 0.3 ], name: 'Jump this', c: '#a62121', action: 'die' },
+      { type: 'box', pos: [ 0.54, 0.01 ], size: [ 0.4, 0.01 ], name: 'Right death floor', action: 'die', c: '#a62121' },
+      { type: 'box', pos: [ 0, 0.2 ], size: [ 0.04, 0.01 ], action: 'die', c: '#a62121', name: 'Small hole 1' },
+      { type: 'box', pos: [ 0.06, 0.2 ], size: [ 0.04, 0.01 ], action: 'die', c: '#a62121', name: 'Small hole 2' },
+      { type: 'box', pos: [ 0.35, 0.01 ], size: [ 0.04, 0.01 ], action: 'die', c: '#a62121', name: 'Small death 1' },
+      { type: 'box', pos: [ 0.25, 0.01 ], size: [ 0.04, 0.01 ], action: 'die', c: '#a62121', name: 'Small death 2' },
+      { type: 'box', pos: [ 0.14, 0.01 ], size: [ 0.04, 0.01 ], action: 'die', c: '#a62121', name: 'Small death 3' },
+      { type: 'box', pos: [ 0.8, 0 ], size: [ 0.4, 0.8 ] },
+      { type: 'box', pos: [ 0.1, 0.6 ], size: [ 0.1, 0.01 ] }
     ]
   };
 
@@ -32,6 +50,8 @@ var World = function World(ctx, bounds, sceneType, data) {
 World.prototype.transformCoords = function() {
   for (var i=0; i<this.data.obstacles.length; i++) {
     var o = this.data.obstacles[i];
+
+    o.action = o.action || 'barrier';
 
     o.pos[0] = Math.floor(o.pos[0]*this.width);
     o.pos[1] = Math.floor(o.pos[1]*this.height);
@@ -62,6 +82,7 @@ World.prototype.convertObjY = function(y) {
 
 World.prototype.checkCollision = function(previousMovement, nextMovement, size) {
   nextMovement.hit = { t: 0, r: 0, b: 0, l: 0 };
+  nextMovement.performActions = [ ];
   if (!previousMovement) { return nextMovement; }
   var pPos = {
     now: {
@@ -119,6 +140,7 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         nextMovement.v[1] = 0;
         minHeight = 0;
         nextMovement.hit.t = 1;
+        nextMovement.performActions.push(o.action);
       }
     }
 
@@ -129,6 +151,7 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         nextMovement.p[0] = oPos.r+1;
         nextMovement.v[0] = 0;
         nextMovement.hit.r = 1;
+        nextMovement.performActions.push(o.action);
       }
     }
 
@@ -139,6 +162,7 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         nextMovement.p[1] = oPos.b;
         nextMovement.v[1] = 0;
         nextMovement.hit.b = 1;
+        nextMovement.performActions.push(o.action);
       }
     }
 
@@ -149,6 +173,7 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         nextMovement.p[0] = oPos.l-size[0]-1;
         nextMovement.v[0] = 0;
         nextMovement.hit.l = 1;
+        nextMovement.performActions.push(o.action);
       }
     }
   }
