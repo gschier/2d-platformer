@@ -6,8 +6,11 @@ var Game = function Game(ctx, width, height, doneCallback) {
   this.FONT_PADDING = 4;
   this.WIDTH = width;
   this.HEIGHT = height;
+  this.INITIAL_TIME_SCALE = 1.3;
 
-  this.timeScale = 1.0;
+  this.timeScale = this.INITIAL_TIME_SCALE;
+  this.currentLevel = 1;
+
 
   var initialBounds = [ 0, this.WIDTH, 0, this.HEIGHT ]; // [ x1, x2, y1, y2]
 
@@ -16,22 +19,42 @@ var Game = function Game(ctx, width, height, doneCallback) {
     that.handleAction(action, isPress);
   });
 
-
-  var levelRoot;
-  var level = 'playground';
-
   // HACK so that it works on Github Pages without Node.js
   if (window.location.href.indexOf('gschier.github.com') !== -1) {
-    levelRoot = './public/levels/';
+    this.levelRoot = './public/levels/';
   } else {
-    levelRoot = 'levels/';
+    this.levelRoot = 'levels/';
   }
+
+  $.getJSON(this.levelRoot+'levelProgression.json', function(levelProgression) {
+    that.levels = levelProgression.levels;
+
+    that.loadLevel(0, function() {
+      doneCallback();
+    });
+  });
+};
+
+Game.prototype.beatTheGame = function() {
+  alert('You beat the game!');
+  window.location.reload();
+};
+
+Game.prototype.loadLevel = function(increment, callback) {
+  this.currentLevel += increment;
+
+  var level = this.levels[this.currentLevel];
+
+  if (!level) {
+    return this.beatTheGame();
+  }
+
+  this.resetTimeScale();
 
   console.log('Loading level "'+level+'"...');
 
-  $.getJSON(levelRoot+level+'.json', function(levelData) {
-    console.log('Initializing world...');
-
+  var that = this;
+  $.getJSON(this.levelRoot+level+'.json', function(levelData) {
     var cameraBounds = [
       that.WIDTH*levelData.camera_bounds[0],
       that.HEIGHT-(that.HEIGHT*levelData.camera_bounds[1]),
@@ -44,10 +67,13 @@ var Game = function Game(ctx, width, height, doneCallback) {
       that.HEIGHT-(that.HEIGHT*levelData.player_start[1])
     ];
 
-    that.world  = new World(ctx, that.WIDTH, that.HEIGHT, levelData);
+    that.world  = new World(that.ctx, that.WIDTH, that.HEIGHT, levelData);
     that.camera = new Camera(cameraBounds, that.WIDTH, that.HEIGHT);
-    that.player = new Player(ctx, that.WIDTH, that.HEIGHT, playerStart);
-    that.scene  = new Scene(ctx, cameraBounds, levelData.scene);
+    that.scene  = new Scene(that.ctx, cameraBounds, levelData.scene);
+
+    that.player = new Player(that.ctx, that.WIDTH, that.HEIGHT, playerStart, function(action, data) {
+      that.handleAction(action, data);
+    });
 
     // For frame rate calculation
     that.frameRate = 60;
@@ -55,8 +81,9 @@ var Game = function Game(ctx, width, height, doneCallback) {
     that.framesTime = Date.now();
 
     that.start = Date.now();
-    console.log('Starting game!');
-    doneCallback();
+    console.log('Level started');
+
+    if (typeof callback === 'function') { callback(); }
   });
 };
 
@@ -128,9 +155,37 @@ Game.prototype.checkFrameRate = function() {
   }
 };
 
-Game.prototype.handleAction = function(action, isPress) {
-  // console.log((isPress ? '! ' : '# ')+action);
-  if (action === 'jump') { this.player.jump(isPress); }
-  if (action === 'left') { this.player.left(isPress); }
-  if (action === 'right') { this.player.right(isPress); }
+Game.prototype.resetTimeScale = function() {
+  clearTimeout(this.timeScaleTimeout);
+  this.timeScale = this.INITIAL_TIME_SCALE;
+};
+
+Game.prototype.alterTime = function(data) {
+  this.resetTimeScale();
+  this.timeScale *= data.scale || 0.4;
+
+  var that = this;
+  this.timeScaleTimeout = setTimeout( function() {
+    that.resetTimeScale();
+  }, data.length || 3000);
+};
+
+Game.prototype.handleAction = function(action, data) {
+  if (action === 'jump') { this.player.jump(data); return; }
+  if (action === 'left') { this.player.left(data); return; }
+  if (action === 'right') { this.player.right(data); return; }
+
+  if (action === 'barrier') { return; }
+
+  console.log('Action: ', action, data);
+  if (action === 'die') { this.loadLevel(0); return; }
+  if (action === 'win') { this.loadLevel(1); return; }
+
+  if (action instanceof Array && action.length) {
+    if (action[0] === 'slow') {
+      this.alterTime(action[1]);
+      this.world.removeObstacle(data);
+      return;
+    }
+  }
 };

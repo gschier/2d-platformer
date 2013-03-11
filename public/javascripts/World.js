@@ -52,6 +52,10 @@ World.prototype.convertObjY = function(y) {
   return this.HEIGHT-y;
 };
 
+World.prototype.removeObstacle = function(index) {
+  this.levelData.obstacles.splice(index, 1);
+};
+
 World.prototype.checkCollision = function(previousMovement, nextMovement, size) {
   nextMovement.hit = { t: 0, r: 0, b: 0, l: 0 };
   nextMovement.performActions = [ ];
@@ -108,11 +112,13 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
       xIntercept = (oPos.t-pPos.prev.b)/slope+(pPos.prev.l+size[0]/2);
       if (xIntercept > oPos.l-size[0]/2 && xIntercept < oPos.r+size[0]/2) {
         // console.log('TOP-SIDE:    '+o.name);
-        nextMovement.p[1] = oPos.t-size[1];
-        nextMovement.v[1] = 0;
+        if (!o.through) {
+          nextMovement.p[1] = oPos.t-size[1];
+          nextMovement.v[1] = 0;
+        }
         minHeight = 0;
         nextMovement.hit.t = 1;
-        nextMovement.performActions.push(o.action);
+        nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
 
@@ -120,10 +126,12 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
       yIntercept = (pPos.prev.t+size[1]/2)+(oPos.r-pPos.prev.l)*slope;
       if (yIntercept < oPos.b+size[1]/2 && yIntercept > oPos.t-size[1]/2) {
         // console.log('RIGHT-SIDE:  '+o.name);
-        nextMovement.p[0] = oPos.r+1;
-        nextMovement.v[0] = 0;
+        if (!o.through) {
+          nextMovement.p[0] = oPos.r+1;
+          nextMovement.v[0] = 0;
+        }
         nextMovement.hit.r = 1;
-        nextMovement.performActions.push(o.action);
+        nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
 
@@ -131,10 +139,12 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
       xIntercept = (oPos.b-pPos.prev.t)/slope+(pPos.prev.l+size[0]/2);
       if (xIntercept > oPos.l-size[0]/2 && xIntercept < oPos.r+size[0]/2) {
         // console.log('BOTTOM-SIDE: '+o.name);
-        nextMovement.p[1] = oPos.b+1;
-        nextMovement.v[1] = 0;
+        if (!o.through) {
+          nextMovement.p[1] = oPos.b+1;
+          nextMovement.v[1] = 0;
+        }
         nextMovement.hit.b = 1;
-        nextMovement.performActions.push(o.action);
+        nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
 
@@ -142,10 +152,12 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
       yIntercept = (pPos.prev.t+size[1]/2)+(oPos.l-pPos.prev.r)*slope;
       if (yIntercept < oPos.b+size[1]/2 && yIntercept > oPos.t-size[1]/2) {
         // console.log('LEFT-SIDE:   '+o.name);
-        nextMovement.p[0] = oPos.l-size[0]-1;
-        nextMovement.v[0] = 0;
+        if (!o.through) {
+          nextMovement.p[0] = oPos.l-size[0]-1;
+          nextMovement.v[0] = 0;
+        }
         nextMovement.hit.l = 1;
-        nextMovement.performActions.push(o.action);
+        nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
   }

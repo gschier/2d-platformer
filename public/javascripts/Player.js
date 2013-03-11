@@ -1,5 +1,5 @@
-var Player = function Player(ctx, width, height, startPosition) {
-  this.NUM_AIR_JUMPS = 3;
+var Player = function Player(ctx, width, height, startPosition, actionCallback) {
+  this.NUM_AIR_JUMPS = 2;
   this.GRAVITY = 12;
   this.WIDTH = width;
   this.HEIGHT = height;
@@ -13,6 +13,7 @@ var Player = function Player(ctx, width, height, startPosition) {
   this.COLOR = '#40668B';
 
   this.ctx = ctx;
+  this.actionCallback = actionCallback;
 
   this.reset();
 };
@@ -36,16 +37,9 @@ Player.prototype.reset = function () {
  */
 Player.prototype.checkActions = function(actions) {
   if (!actions) { return; }
-  var died = false;
   for (var i = 0; i<actions.length; i++) {
     var action = actions[i];
-    if (action === 'die') { died = true; }
-  }
-
-  // Don't execute reset inside the loop to
-  // make sure thing get reset properly
-  if (died) {
-    this.reset();
+    this.actionCallback(action.action, action.index);
   }
 };
 
@@ -116,10 +110,10 @@ Player.prototype.right = function(isPress) {
 };
 
 // GETTERS
-Player.prototype.getSize = function() { return [ this.SIZE, this.SIZE ]; };
-Player.prototype.getPosition = function() { return this.p; };
-Player.prototype.getVelocity = function() { return this.v; };
-Player.prototype.getPendingVelocity = function() { return this.pendingV; };
-Player.prototype.getAirJumps = function() { return this.airJumps; };
+Player.prototype.getSize             = function() { return [ this.SIZE, this.SIZE ]; };
+Player.prototype.getPosition         = function() { return this.p; };
+Player.prototype.getVelocity         = function() { return this.v; };
+Player.prototype.getPendingVelocity  = function() { return this.pendingV; };
+Player.prototype.getAirJumps         = function() { return this.airJumps; };
 Player.prototype.getPreviousMovement = function() { return this.previousMovement; };
-Player.prototype.getFallHeight = function() { return this.fallHeight; };
+Player.prototype.getFallHeight       = function() { return this.fallHeight; };
