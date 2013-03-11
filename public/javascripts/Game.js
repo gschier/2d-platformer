@@ -11,7 +11,6 @@ var Game = function Game(ctx, width, height, doneCallback) {
   this.timeScale = this.INITIAL_TIME_SCALE;
   this.currentLevel = 0;
 
-
   var initialBounds = [ 0, this.WIDTH, 0, this.HEIGHT ]; // [ x1, x2, y1, y2]
 
   var that = this;
@@ -133,7 +132,8 @@ Game.prototype.update = function(delta, memoryStats) {
     // 'HEIGHT:     '+this.player.getFallHeight().toFixed(1),
     // 'POS_X:      '+position[0].toFixed(1),
     // 'POS_Y:      '+position[1].toFixed(1),
-    'JUMPS:      '+this.player.getAirJumps()
+    'JUMPS:      '+this.player.getAirJumps(),
+    'LEVEL:      '+this.currentLevel
   ]);
 
   this.lastTick = Date.now();
