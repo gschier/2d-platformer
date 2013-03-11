@@ -1,15 +1,15 @@
-var Player = function Player(ctx, bounds) {
+var Player = function Player(ctx, width, height, startPosition) {
   this.NUM_AIR_JUMPS = 3;
-  this.GRAVITY = 8;
-  this.ACCELERATION = bounds[3]*this.GRAVITY/1E6;
-  this.JUMP_VELOCITY = -this.ACCELERATION*200;
-  this.MOVE_VELOCITY = this.JUMP_VELOCITY/3;
-  this.MAX_Y_VELOCITY = -this.JUMP_VELOCITY*2;
-  this.WIDTH = bounds[1]-bounds[0];
-  this.HEIGHT = bounds[3]-bounds[2];
-  this.RESET_POSITION = [ this.WIDTH/3, 0 ];
+  this.GRAVITY = 12;
+  this.WIDTH = width;
+  this.HEIGHT = height;
+  this.ACCELERATION = this.HEIGHT*this.GRAVITY/1E7;
+  this.JUMP_VELOCITY = -this.ACCELERATION*500;
+  this.MOVE_VELOCITY = this.JUMP_VELOCITY/2;
+  this.MAX_Y_VELOCITY = -this.JUMP_VELOCITY*1.5;
+  this.RESET_POSITION = startPosition;
   this.RESET_VELOCITY = [ 0, 0.1 ];
-  this.SIZE = bounds[3]/40;
+  this.SIZE = this.HEIGHT/40;
   this.COLOR = '#40668B';
 
   this.ctx = ctx;
@@ -30,20 +30,10 @@ Player.prototype.reset = function () {
   this.vXBuff = { l: 0, r: 0 };
 };
 
-Player.prototype.move = function(delta) {
-  // arr.slice(0) makes a copy
-  var movement = {
-    p: this.p.slice(0),
-    v: this.v.slice(0),
-    pendingV: this.pendingV.slice(0)
-  };
-
-  for (var i=0; i<2; i++) {
-    movement.p[i] += movement.v[i]*delta;
-  }
-  return movement;
-};
-
+/**
+ * Handles any actions the player's last move may
+ * have triggered
+ */
 Player.prototype.checkActions = function(actions) {
   if (!actions) { return; }
   var died = false;
@@ -59,31 +49,45 @@ Player.prototype.checkActions = function(actions) {
   }
 };
 
+Player.prototype.move = function(delta) {
+  // Calculate velocity for next frame
+  if (this.v[1]) { this.v[1] += this.ACCELERATION*delta; }
+
+  var movement = {
+    p: this.p.slice(0), // .slice() makes a copy
+    v: this.v.slice(0),
+    pendingV: this.pendingV.slice(0)
+  };
+
+  for (var i=0; i<2; i++) { movement.p[i] += movement.v[i]*delta; }
+  return movement;
+};
+
 Player.prototype.update = function(movement, delta) {
   this.p = movement.p;
   this.v = movement.v;
+
   this.fallHeight = movement.height || 0;
+
   this.previousMovement = movement;
 
   this.checkActions(movement.performActions);
 
-  if (this.v[1]) { this.v[1] += this.ACCELERATION*delta; }
+  // Reset air jump count if player lands on top of an object
   if (movement.hit.t) { this.airJumps = this.NUM_AIR_JUMPS; }
 
-  // Get extra jump if hit a wall
+  // Reset air jump count if player hits a wall
   if (movement.hit.r || movement.hit.l) { this.airJumps = this.NUM_AIR_JUMPS; }
 
   // Enforce max fall velocity
   if (movement.v[1] > 0 && movement.v[1] > this.MAX_Y_VELOCITY) {
     movement.v[1] = this.MAX_Y_VELOCITY;
   }
-
-  this.draw();
 };
 
-Player.prototype.draw = function() {
+Player.prototype.draw = function(relativePosition) {
   this.ctx.beginPath();
-  this.ctx.rect(this.p[0], this.p[1], this.SIZE, this.SIZE);
+  this.ctx.rect(relativePosition[0], relativePosition[1], this.SIZE, this.SIZE);
   this.ctx.fillStyle = this.COLOR;
   this.ctx.fill();
 };

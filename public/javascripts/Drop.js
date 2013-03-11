@@ -16,13 +16,20 @@ var Drop = function Drop(ctx, x, y, width, type) {
 };
 
 Drop.prototype.move = function(delta) {
-  for (var i=0; i<2; i++) { this.p[i] += this.v[i]*delta; }
 };
 
 Drop.prototype.update = function(delta) {
-  this.move(delta);
+  for (var i=0; i<2; i++) { this.p[i] += this.v[i]*delta; }
+};
+
+Drop.prototype.draw = function(positionOffset) {
+  // console.log(this.p[0], positionOffset);
   this.ctx.beginPath();
-  this.ctx.rect(this.p[0], this.p[1], this.size, this.size);
+  this.ctx.rect(this.p[0]-positionOffset[0], this.p[1]-positionOffset[1], this.size, this.size);
   this.ctx.fillStyle = 'rgba('+this.color[0]+','+this.color[1]+','+this.color[2]+','+this.alpha+')';
   this.ctx.fill();
+};
+
+Drop.prototype.getPosition = function() {
+  return this.p;
 };

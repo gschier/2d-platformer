@@ -1,0 +1,16 @@
+{
+  "name": "platformer-demo",
+  "version": "0.6.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "*",
+    "stylus": "*",
+    "jade": "*"
+  },
+  "engines": {
+    "node": "0.8.x"
+  }
+}

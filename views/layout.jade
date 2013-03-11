@@ -1,0 +1,32 @@
+doctype 5
+html
+  head
+    title #{title ? title + ' |' : ''} Gregory Schier
+
+    style
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background: #111;
+      }
+      canvas {
+        background: #222;
+      }
+
+    script(src='/javascripts/jquery.js')
+    script(src='/javascripts/jquery.js')
+    script(src='/javascripts/Game.js')
+    script(src='/javascripts/World.js')
+    script(src='/javascripts/Camera.js')
+    script(src='/javascripts/Scene.js')
+    script(src='/javascripts/Drop.js')
+    script(src='/javascripts/Player.js')
+    script(src='/javascripts/KeyHandler.js')
+    script(src='/javascripts/main.js')
+
+  body
+    block content
+
