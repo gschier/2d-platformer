@@ -79,7 +79,6 @@ Game.prototype.update = function(delta) {
   delta *= this.timeScale;
 
   // Check if player hit something
-  this.player.draw(this.camera.getPlayerDrawPosition(this.player.getPosition()));
   this.checkPlayerCollisions(this.player.move(delta), delta);
   this.scene.update(delta);
 
@@ -88,6 +87,7 @@ Game.prototype.update = function(delta) {
   // Draw everything
   this.scene.draw(this.camera.getPositionOffset());
   this.world.draw(this.camera.getPositionOffset());
+  this.player.draw(this.camera.getPlayerDrawPosition(this.player.getPosition()));
 
   this.checkFrameRate();
   var position = this.player.getPosition();
