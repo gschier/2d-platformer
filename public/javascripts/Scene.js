@@ -13,7 +13,7 @@ var Scene = function Scene(ctx, cameraBounds, type) {
   var that = this;
   var dropStartOffsetToAccountForWind = this.WIDTH*0.5;
   setInterval( function() {
-    for (var i=0; i<4; i++) {
+    for (var i=0; i<3; i++) {
       that.drops.push(new Drop(
         that.ctx,
         that.BOUNDS[0]+Math.random()*(that.WIDTH+dropStartOffsetToAccountForWind*2)-dropStartOffsetToAccountForWind,

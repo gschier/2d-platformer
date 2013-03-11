@@ -34,17 +34,35 @@ $( function() {
   var delta = 0;
   var now;
 
+  var memoryStats = {
+    totalHeap: 'N/A',
+    usedHeap: 'N/A',
+    lastGC: 'N/A'
+  };
+
+  var updateMemoryStats = function() {
+    if (window.performance.memory.usedJSHeapSize < memoryStats.usedHeap) {
+      memoryStats.lastGC = memoryStats.usedHeap-window.performance.memory.usedJSHeapSize;
+    }
+
+    if (window.performance && window.performance.memory) {
+      memoryStats.totalHeap = window.performance.memory.totalJSHeapSize;
+      memoryStats.usedHeap = window.performance.memory.usedJSHeapSize;
+    }
+  };
+
+  updateMemoryStats();
+
   var game = new Game(ctx, w, h, function() {
     var loop = function() {
       window.requestAnimFrame(loop);
       now = Date.now();
       if (lastTick) { delta = now-lastTick; }
       lastTick = now;
-      game.update(delta);
+      game.update(delta, memoryStats);
     };
-    // setInterval( function() {
-    //   game.update();
-    // }, 200);
+
+    setInterval(updateMemoryStats, 500);
 
     window.requestAnimFrame = function() {
       return window.requestAnimationFrame ||

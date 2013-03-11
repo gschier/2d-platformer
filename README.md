@@ -17,6 +17,8 @@ $ npm start
 $ # visit http://localhost:5000 in your browser
 ```
 
+*To get memory stats to work start Google Chrome with the "--enable-memory-info" flag*
+
 ## Functionality
 
 This basic 2D platform game was built from scratch using HTML <canvas> and Javascript. The basic features include:

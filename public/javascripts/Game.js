@@ -74,7 +74,11 @@ Game.prototype.printStats = function(stats) {
   }
 };
 
-Game.prototype.update = function(delta) {
+Game.prototype.formatMemory = function(v) {
+  return Math.round(v/1024/1024*100)/100+' MB';
+};
+
+Game.prototype.update = function(delta, memoryStats) {
   this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
   delta *= this.timeScale;
 
@@ -94,11 +98,14 @@ Game.prototype.update = function(delta) {
 
   this.printStats([
     'FRAMERATE:  '+this.frameRate,
+    'USED_MEM:   '+this.formatMemory(memoryStats.usedHeap),
+    'TOTAL_MEM:  '+this.formatMemory(memoryStats.totalHeap),
+    'LAST_GC:    '+this.formatMemory(memoryStats.lastGC),
     'TIME:       '+(Math.round((Date.now()-this.start)/100)/10).toFixed(1)+'s',
     'TIME_SCALE: '+this.timeScale.toFixed(1),
-    'HEIGHT:     '+this.player.getFallHeight().toFixed(1),
-    'POS_X:      '+position[0].toFixed(1),
-    'POS_Y:      '+position[1].toFixed(1),
+    // 'HEIGHT:     '+this.player.getFallHeight().toFixed(1),
+    // 'POS_X:      '+position[0].toFixed(1),
+    // 'POS_Y:      '+position[1].toFixed(1),
     'JUMPS:      '+this.player.getAirJumps()
   ]);
 

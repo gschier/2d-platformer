@@ -131,7 +131,7 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
       xIntercept = (oPos.b-pPos.prev.t)/slope+(pPos.prev.l+size[0]/2);
       if (xIntercept > oPos.l-size[0]/2 && xIntercept < oPos.r+size[0]/2) {
         // console.log('BOTTOM-SIDE: '+o.name);
-        nextMovement.p[1] = oPos.b;
+        nextMovement.p[1] = oPos.b+1;
         nextMovement.v[1] = 0;
         nextMovement.hit.b = 1;
         nextMovement.performActions.push(o.action);
