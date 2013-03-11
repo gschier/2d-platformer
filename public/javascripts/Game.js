@@ -8,6 +8,14 @@ var Game = function Game(ctx, width, height, doneCallback) {
   this.HEIGHT = height;
   this.INITIAL_TIME_SCALE = 1.4;
 
+  this.STATES = {
+    STARTING: 0,
+    LOADING_LEVEL: 1,
+    PLAYING_LEVEL: 2
+  };
+
+  this.state = this.STATES.STARTING;
+
   this.timeScale = this.INITIAL_TIME_SCALE;
   this.currentLevel = 0;
 
@@ -41,6 +49,7 @@ Game.prototype.beatTheGame = function() {
 
 Game.prototype.loadLevel = function(increment, callback) {
   this.currentLevel += increment;
+  this.STATE = this.STATES.LOADING_LEVEL;
 
   var level = this.levels[this.currentLevel];
 
@@ -80,6 +89,7 @@ Game.prototype.loadLevel = function(increment, callback) {
     that.framesTime = Date.now();
 
     that.start = Date.now();
+    that.STATE = that.STATES.PLAYING_LEVEL;
     console.log('Level started');
 
     if (typeof callback === 'function') { callback(); }
@@ -105,6 +115,8 @@ Game.prototype.formatMemory = function(v) {
 };
 
 Game.prototype.update = function(delta, memoryStats) {
+  if (this.STATE !== this.STATES.PLAYING_LEVEL) { return; }
+
   this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
   delta *= this.timeScale;
 
@@ -133,7 +145,8 @@ Game.prototype.update = function(delta, memoryStats) {
     // 'POS_X:      '+position[0].toFixed(1),
     // 'POS_Y:      '+position[1].toFixed(1),
     'JUMPS:      '+this.player.getAirJumps(),
-    'LEVEL:      '+this.currentLevel
+    'LEVEL:      '+this.currentLevel,
+    'STATE:      '+this.state
   ]);
 
   this.lastTick = Date.now();
@@ -171,6 +184,8 @@ Game.prototype.alterTime = function(data) {
 };
 
 Game.prototype.handleAction = function(action, data) {
+  if (this.STATE !== this.STATES.PLAYING_LEVEL) { return; }
+
   if (action === 'jump') { this.player.jump(data); return; }
   if (action === 'left') { this.player.left(data); return; }
   if (action === 'right') { this.player.right(data); return; }
