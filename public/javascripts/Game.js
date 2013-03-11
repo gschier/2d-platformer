@@ -6,7 +6,7 @@ var Game = function Game(ctx, width, height, doneCallback) {
   this.FONT_PADDING = 4;
   this.WIDTH = width;
   this.HEIGHT = height;
-  this.INITIAL_TIME_SCALE = 1.3;
+  this.INITIAL_TIME_SCALE = 1.4;
 
   this.timeScale = this.INITIAL_TIME_SCALE;
   this.currentLevel = 0;

@@ -1,9 +1,9 @@
 {
   "obstacles": [
-    { "type": "box", "pos": [  0.000,  1.800 ], "size": [ 0.040, 0.050 ], "name": "initial landing" },
-    { "type": "box", "pos": [  0.130,  1.740 ], "size": [ 0.008, 0.480 ], "name": "initial wall hang" },
+    { "type": "box", "pos": [  0.000,  1.700 ], "size": [ 0.040, 0.050 ], "name": "initial landing" },
+    { "type": "box", "pos": [  0.130,  1.840 ], "size": [ 0.008, 0.480 ], "name": "initial wall hang" },
     { "type": "box", "pos": [  0.220,  1.720 ], "size": [ 0.010, 0.480 ], "name": "right wall hang" },
-    { "type": "box", "pos": [  0.172,  1.300 ], "size": [ 0.008, 0.260 ], "name": "2nd wall hang" },
+    { "type": "box", "pos": [  0.172,  1.400 ], "size": [ 0.008, 0.160 ], "name": "2nd wall hang" },
 
     { "type": "box", "pos": [  0.240,  0.050 ], "size": [ 0.100, 0.100 ], "action": "win", "c": "#2f832f" },
 
@@ -11,6 +11,7 @@
     { "type": "box", "pos": [  0.050,  1.100 ], "size": [ 0.180, 0.020 ], "action": "die", "c": "#a62121", "name": "die 1" },
     { "type": "box", "pos": [  0.230,  1.100 ], "size": [ 0.100, 0.880 ], "action": "die", "c": "#a62121", "name": "die right" },
     { "type": "box", "pos": [  0.000,  0.000 ], "size": [ 0.250, 0.720 ], "action": "die", "c": "#a62121", "name": "die big last" },
+    { "type": "box", "pos": [  0.275,  0.000 ], "size": [ 0.050, 0.720 ], "action": "die", "c": "#a62121", "name": "die big last right" },
     { "type": "box", "pos": [  0.000, -0.950 ], "size": [ 2.000, 1.000 ], "action": "die", "c": "#a62121", "name": "death floor" },
 
     { "type": "box", "pos": [  0.200,  1.650 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 1000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
