@@ -4,9 +4,18 @@ base-2d-platformer
 
 [gschier.github.com/base-2d-platformer](http://gschier.github.com/base-2d-platformer/)
 
+## Requirements
+
+- Have [Node.js](http://nodejs.org/) installed
+
 ## Setup
 
-Simply `git clone` the repo and open `index.html` in your browser (I only tested in Chrome).
+``` bash
+$ # cd to root of project
+$ npm install
+$ npm start
+$ # visit http://localhost:5000 in your browser
+```
 
 ## Functionality
 
@@ -27,9 +36,9 @@ I will make configuration easier eventually. The more advanced features include 
 ## Future Plans
 
 So far this is just a start, here's a list of things I want to do next:
-- Camera support
-- Trigger zones
-- Lots of other stuff
+- Sequential level flow
+- More trigger types
+- A lot more
 
 ## Contribution and Questions
 If you would like to contribute you can do one or more of the following
