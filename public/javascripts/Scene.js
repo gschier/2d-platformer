@@ -5,7 +5,7 @@ var Scene = function Scene(ctx, cameraBounds, type) {
 
   this.TYPE = type;
 
-  console.log('Initializing scene of type "'+this.TYPE+'"');
+  console.log('Initializing scene of type "'+this.TYPE+'"...');
 
   this.ctx = ctx;
   this.drops = [ ];

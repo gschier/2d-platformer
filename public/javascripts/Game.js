@@ -17,8 +17,19 @@ var Game = function Game(ctx, width, height, doneCallback) {
   });
 
 
-  console.log('Loading level...');
-  $.getJSON('levels/playground.json', function(levelData) {
+  var levelRoot;
+  var level = 'playground';
+
+  // HACK so that it works on Github Pages without Node.js
+  if (window.location.href.indexOf('gschier.github.com') !== -1) {
+    levelRoot = './public/levels/';
+  } else {
+    levelRoot = 'levels/';
+  }
+
+  console.log('Loading level "'+level+'"...');
+
+  $.getJSON(levelRoot+level+'.json', function(levelData) {
     console.log('Initializing world...');
 
     var cameraBounds = [
@@ -44,6 +55,7 @@ var Game = function Game(ctx, width, height, doneCallback) {
     that.framesTime = Date.now();
 
     that.start = Date.now();
+    console.log('Starting game!');
     doneCallback();
   });
 };
