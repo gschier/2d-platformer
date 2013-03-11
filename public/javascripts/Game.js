@@ -9,7 +9,7 @@ var Game = function Game(ctx, width, height, doneCallback) {
   this.INITIAL_TIME_SCALE = 1.3;
 
   this.timeScale = this.INITIAL_TIME_SCALE;
-  this.currentLevel = 1;
+  this.currentLevel = 0;
 
 
   var initialBounds = [ 0, this.WIDTH, 0, this.HEIGHT ]; // [ x1, x2, y1, y2]
