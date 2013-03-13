@@ -22,7 +22,7 @@ var Scene = function Scene(ctx, cameraBounds, type) {
         that.ctx,
         that.BOUNDS[0]+Math.random()*(that.WIDTH+dropStartOffsetToAccountForWind*2)-dropStartOffsetToAccountForWind,
         that.BOUNDS[3],
-        that.WIDTH,
+        that.HEIGHT/100,
         that.TYPE
       ));
     }

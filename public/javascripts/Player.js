@@ -1,5 +1,6 @@
 var Player = function Player(ctx, width, height, startPosition, actionCallback) {
   this.NUM_AIR_JUMPS = 2;
+  // this.NUM_AIR_JUMPS = 9999;
   this.GRAVITY = 12;
   this.WIDTH = width;
   this.HEIGHT = height;

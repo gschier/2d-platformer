@@ -1,18 +1,18 @@
 var Drop = function Drop() { };
 
-Drop.prototype.init = function(ctx, x, y, width, type) {
+Drop.prototype.init = function(ctx, x, y, size, type) {
   this.ctx = ctx;
   this.p = [ x, y ];
 
   if (type === 'snow') {
     this.v = [ (Math.random()+1)/8, (Math.random()+1)/8 ];
     this.color = [ 255, 255, 255 ];
-    this.size = (width/400)*(Math.random()+4);
+    this.size = size*(Math.random()+3);
     this.alpha = Math.random()/10;
   } else { // Default to rain
-    this.v = [ -width/10000, width/20000*(Math.random()+10) ];
+    this.v = [ -size/100, -size/100*(Math.random()+10) ];
     this.color = [ 0, 200, 255 ];
-    this.size = Math.max(4, width*(Math.random()+5)/2000);
+    this.size = Math.max(4, size*(Math.random()+5)/100);
     this.alpha = (Math.random()+3)/20;
   }
 
