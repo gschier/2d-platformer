@@ -54,6 +54,12 @@ $( function() {
   updateMemoryStats();
 
   var game = new Game(ctx, w, h, function() {
+    // setInterval( function() {
+    //   now = Date.now();
+    //   if (lastTick) { delta = now-lastTick; }
+    //   lastTick = now;
+    //   game.update(delta, memoryStats);
+    // }, 50);
     var loop = function() {
       window.requestAnimFrame(loop);
       now = Date.now();

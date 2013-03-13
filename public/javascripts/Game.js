@@ -78,6 +78,7 @@ Game.prototype.loadLevel = function(increment, callback) {
     that.world  = new World(that.ctx, that.WIDTH, that.HEIGHT, levelData);
     that.camera = new Camera(cameraBounds, that.WIDTH, that.HEIGHT);
     that.scene  = new Scene(that.ctx, cameraBounds, levelData.scene);
+    that.timer  = new Timer(that.ctx, that.WIDTH, that.HEIGHT);
 
     that.player = new Player(that.ctx, that.WIDTH, that.HEIGHT, playerStart, function(action, data) {
       that.handleAction(action, data);
@@ -123,12 +124,15 @@ Game.prototype.update = function(delta, memoryStats) {
   // Check if player hit something
   this.checkPlayerCollisions(this.player.move(delta), delta);
   this.scene.update(delta);
+  this.timer.update(delta);
 
   this.camera.move(this.player.getPosition());
 
   // Draw everything
+  this.timer.drawForeground();
   this.scene.draw(this.camera.getPositionOffset());
   this.world.draw(this.camera.getPositionOffset());
+  this.timer.drawBackground();
   this.player.draw(this.camera.getPlayerDrawPosition(this.player.getPosition()));
 
   this.checkFrameRate();
@@ -174,13 +178,16 @@ Game.prototype.resetTimeScale = function() {
 };
 
 Game.prototype.alterTime = function(data) {
+  var time = data.length || 3000;
+
   this.resetTimeScale();
   this.timeScale *= data.scale || 0.4;
+  this.timer.set(time);
 
   var that = this;
   this.timeScaleTimeout = setTimeout( function() {
     that.resetTimeScale();
-  }, data.length || 3000);
+  }, time);
 };
 
 Game.prototype.handleAction = function(action, data) {

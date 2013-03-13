@@ -39,6 +39,7 @@ KeyHandler.prototype.addListeners = function() {
   var that = this;
   $('body').on('keydown', function(e) {
     var action = that.getAction(e.which);
+    // console.log(String.fromCharCode(e.which));
     if (action && !that.pressed[action]) {
       that.eventCallback(action, true);
       that.pressed[action] = 1;

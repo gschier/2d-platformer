@@ -14,8 +14,8 @@
     { "type": "box", "pos": [  0.275,  0.000 ], "size": [ 0.050, 0.720 ], "action": "die", "c": "#a62121", "name": "die big last right" },
     { "type": "box", "pos": [  0.000, -0.950 ], "size": [ 2.000, 1.000 ], "action": "die", "c": "#a62121", "name": "death floor" },
 
-    { "type": "box", "pos": [  0.200,  1.650 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 1000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
-    { "type": "box", "pos": [  0.160,  0.900 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 4000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
+    { "type": "box", "pos": [  0.200,  1.650 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 2000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
+    { "type": "box", "pos": [  0.160,  0.900 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 2000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
 
     { "type": "box", "pos": [ -0.990, -0.010 ], "size": [ 1.000, 2.000 ], "name": "left wall" },
     { "type": "box", "pos": [  0.000,  1.950 ], "size": [ 2.000, 1.000 ], "name": "ceiling" },

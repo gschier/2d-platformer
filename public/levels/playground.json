@@ -31,7 +31,12 @@
     { "type": "box", "pos": [ 0.060, 0.200 ], "size": [ 0.040, 0.010 ], "c": "#a62121", "action": "die" },
     { "type": "box", "pos": [ 0.350, 0.010 ], "size": [ 0.040, 0.010 ], "c": "#a62121", "action": "die" },
     { "type": "box", "pos": [ 0.250, 0.010 ], "size": [ 0.040, 0.010 ], "c": "#a62121", "action": "die" },
-    { "type": "box", "pos": [ 0.140, 0.010 ], "size": [ 0.040, 0.010 ], "c": "#a62121", "action": "die" }
+    { "type": "box", "pos": [ 0.140, 0.010 ], "size": [ 0.040, 0.010 ], "c": "#a62121", "action": "die" },
+    { "type": "box", "pos": [ 0.320, 0.600 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 4000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
+    { "type": "box", "pos": [ 0.140, 0.900 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 3000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
+    { "type": "box", "pos": [ 0.470, 0.530 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 3000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
+    { "type": "box", "pos": [ 0.770, 0.570 ], "size": [ 0.010, 0.020 ], "action": [ "slow", { "length": 3000 } ], "through": true, "c": "#CBC25D", "name": "slo-mo 1" },
+    { "type": "box", "pos": [ 0.900, 0.850 ], "size": [ 0.050, 0.100 ], "action": "win", "c": "#2F832F", "name": "end goal" }
   ],
   "player_start": [ 0.337, 1 ],
   "camera_bounds": [ 0, 0, 1.2, 1.2 ],

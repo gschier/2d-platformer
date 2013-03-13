@@ -115,9 +115,9 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         if (!o.through) {
           nextMovement.p[1] = oPos.t-size[1];
           nextMovement.v[1] = 0;
+          minHeight = 0;
+          nextMovement.hit.t = 1;
         }
-        minHeight = 0;
-        nextMovement.hit.t = 1;
         nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
@@ -129,8 +129,8 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         if (!o.through) {
           nextMovement.p[0] = oPos.r+1;
           nextMovement.v[0] = 0;
+          nextMovement.hit.r = 1;
         }
-        nextMovement.hit.r = 1;
         nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
@@ -142,8 +142,8 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         if (!o.through) {
           nextMovement.p[1] = oPos.b+1;
           nextMovement.v[1] = 0;
+          nextMovement.hit.b = 1;
         }
-        nextMovement.hit.b = 1;
         nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
@@ -155,8 +155,8 @@ World.prototype.checkCollision = function(previousMovement, nextMovement, size) 
         if (!o.through) {
           nextMovement.p[0] = oPos.l-size[0]-1;
           nextMovement.v[0] = 0;
+          nextMovement.hit.l = 1;
         }
-        nextMovement.hit.l = 1;
         nextMovement.performActions.push({ action: o.action, index: i });
       }
     }
