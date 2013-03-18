@@ -2,7 +2,7 @@ base-2d-platformer
 ==================
 ## Demo
 
-[gschier.github.com/base-2d-platformer](http://gschier.github.com/platform-pixels/)
+[gschier.github.com/platform-pixels](http://gschier.github.com/platform-pixels/)
 
 ## Requirements
 
